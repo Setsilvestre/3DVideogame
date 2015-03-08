@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include <time.h>
 #include "Window.h"
 #include "GLSLProgram.h"
 #include "FPSLimiter.h"
@@ -25,7 +26,8 @@ class Game {
 		Game(std::string windowTitle, int screenWidth, int screenHeight, bool enableLimiterFPS, int maxFPS, bool printFPS);	//Constructor
 		~Game();					//Destructor
 		void run();					//Game execution
-
+		double timer = 0;
+		double start = 0;
 	private:
 			//Attributes	
 		std::string _windowTitle;		//Window Title

@@ -19,41 +19,53 @@ void Geometry::LoadScene(){
 	myfile >> line;
 	int lenght;
 	lenght = stoi(line);
-	numberOfPrimitives = lenght;
-	_data = new Vertex[lenght*(MAXVERTICES + 1)];
+	_numberOfPrimitives = lenght;
+	_data = new Vertex*[lenght];
 	for (int i = 0; i < lenght; i++){
-		gameElements.push_back(myElement);
+		_data[i] = new Vertex[36*3];
+	}
+	for (int i = 0; i < lenght; i++){
+		_gameElements.push_back(myElement);
 		for (int j = 0; j < 11; j++){
 			if (j==0){
 				myfile >> line;
-				gameElements[i].idObject = stoi(line);
-				if (gameElements[i].idObject == 0){
+				_gameElements[i].idObject = stoi(line);
+				if (_gameElements[i].idObject == 0){
 					CreateCube(i);
+				}
+				else if (_gameElements[i].idObject == 1){
+					CreateCube(i);
+				}
+				else if (_gameElements[i].idObject == 2){
+					CreateCube(i);
+				}
+				else if (_gameElements[i].idObject == 3){
+					CreatePyramid(i);
 				}
 			}
 			if (j >=1 && j<=3){
 				myfile >> x;
 				myfile >> y;
 				myfile >> z;
-				gameElements[i].translate = glm::vec3(stof(x), stof(y), stof(z));
+				_gameElements[i].translate = glm::vec3(stof(x), stof(y), stof(z));
 				j = 3;
 			}
 			if (j ==4 ){
 				myfile >> x;
-				gameElements[i].angle = stof(x);
+				_gameElements[i].angle = stof(x);
 			}
 			if (j>=5 && j<=7 ){
 				myfile >> x;
 				myfile >> y;
 				myfile >> z;
-				gameElements[i].rotate = glm::vec3(stof(x), stof(y), stof(z));
+				_gameElements[i].rotate = glm::vec3(stof(x), stof(y), stof(z));
 				j = 7;
 			}
 			if (j >=8 && j<=10 ){
 				myfile >> x;
 				myfile >> y;
 				myfile >> z;
-				gameElements[i].scale = glm::vec3(stof(x), stof(y), stof(z));
+				_gameElements[i].scale = glm::vec3(stof(x), stof(y), stof(z));
 				j = 10;
 			}
 		}
@@ -62,58 +74,69 @@ void Geometry::LoadScene(){
 }
 
 void Geometry::CreateCube(int position){
-	_data[position * 35 + 0].setPosition(-1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 1].setPosition(-1.0f, -1.0f, 1.0f);
-	_data[position * 35 + 2].setPosition(-1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 3].setPosition(1.0f, 1.0f, -1.0f);
-	_data[position * 35 + 4].setPosition(-1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 5].setPosition(-1.0f, 1.0f, -1.0f);
-	_data[position * 35 + 6].setPosition(1.0f, -1.0f, 1.0f);
-	_data[position * 35 + 7].setPosition(-1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 8].setPosition(1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 9].setPosition(1.0f, 1.0f, -1.0f);
-	_data[position * 35 + 10].setPosition(1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 11].setPosition(-1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 12].setPosition(-1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 13].setPosition(-1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 14].setPosition(-1.0f, 1.0f, -1.0f);
-	_data[position * 35 + 15].setPosition(1.0f, -1.0f, 1.0f);
-	_data[position * 35 + 16].setPosition(-1.0f, -1.0f, 1.0f);
-	_data[position * 35 + 17].setPosition(-1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 18].setPosition(-1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 19].setPosition(-1.0f, -1.0f, 1.0f);
-	_data[position * 35 + 20].setPosition(1.0f, -1.0f, 1.0f);
-	_data[position * 35 + 21].setPosition(1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 22].setPosition(1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 23].setPosition(1.0f, 1.0f, -1.0f);
-	_data[position * 35 + 24].setPosition(1.0f, -1.0f, -1.0f);
-	_data[position * 35 + 25].setPosition(1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 26].setPosition(1.0f, -1.0f, 1.0f);
-	_data[position * 35 + 27].setPosition(1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 28].setPosition(1.0f, 1.0f, -1.0f);
-	_data[position * 35 + 29].setPosition(-1.0f, 1.0f, -1.0f);
-	_data[position * 35 + 30].setPosition(1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 31].setPosition(-1.0f, 1.0f, -1.0f);
-	_data[position * 35 + 32].setPosition(-1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 33].setPosition(1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 34].setPosition(-1.0f, 1.0f, 1.0f);
-	_data[position * 35 + 35].setPosition(1.0f, -1.0f, 1.0f);
-	for (int i = 0; i < 36; i++){
-		_data[position * 35 + i].setColor(121,515,154,255);
+	_data[position][0].setPosition(-1.0f, -1.0f, -1.0f);
+	_data[position ][ 1].setPosition(-1.0f, -1.0f, 1.0f);
+	_data[position ][ 2].setPosition(-1.0f, 1.0f, 1.0f);
+	_data[position ][ 3].setPosition(1.0f, 1.0f, -1.0f);
+	_data[position ][ 4].setPosition(-1.0f, -1.0f, -1.0f);
+	_data[position ][ 5].setPosition(-1.0f, 1.0f, -1.0f);
+	_data[position ][ 6].setPosition(1.0f, -1.0f, 1.0f);
+	_data[position ][ 7].setPosition(-1.0f, -1.0f, -1.0f);
+	_data[position ][ 8].setPosition(1.0f, -1.0f, -1.0f);
+	_data[position ][ 9].setPosition(1.0f, 1.0f, -1.0f);
+	_data[position ][ 10].setPosition(1.0f, -1.0f, -1.0f);
+	_data[position ][ 11].setPosition(-1.0f, -1.0f, -1.0f);
+	_data[position ][ 12].setPosition(-1.0f, -1.0f, -1.0f);
+	_data[position ][ 13].setPosition(-1.0f, 1.0f, 1.0f);
+	_data[position ][ 14].setPosition(-1.0f, 1.0f, -1.0f);
+	_data[position ][ 15].setPosition(1.0f, -1.0f, 1.0f);
+	_data[position ][ 16].setPosition(-1.0f, -1.0f, 1.0f);
+	_data[position ][ 17].setPosition(-1.0f, -1.0f, -1.0f);
+	_data[position ][ 18].setPosition(-1.0f, 1.0f, 1.0f);
+	_data[position ][ 19].setPosition(-1.0f, -1.0f, 1.0f);
+	_data[position ][ 20].setPosition(1.0f, -1.0f, 1.0f);
+	_data[position ][ 21].setPosition(1.0f, 1.0f, 1.0f);
+	_data[position ][ 22].setPosition(1.0f, -1.0f, -1.0f);
+	_data[position ][ 23].setPosition(1.0f, 1.0f, -1.0f);
+	_data[position ][ 24].setPosition(1.0f, -1.0f, -1.0f);
+	_data[position ][ 25].setPosition(1.0f, 1.0f, 1.0f);
+	_data[position ][ 26].setPosition(1.0f, -1.0f, 1.0f);
+	_data[position ][ 27].setPosition(1.0f, 1.0f, 1.0f);
+	_data[position ][ 28].setPosition(1.0f, 1.0f, -1.0f);
+	_data[position ][ 29].setPosition(-1.0f, 1.0f, -1.0f);
+	_data[position ][ 30].setPosition(1.0f, 1.0f, 1.0f);
+	_data[position ][ 31].setPosition(-1.0f, 1.0f, -1.0f);
+	_data[position ][ 32].setPosition(-1.0f, 1.0f, 1.0f);
+	_data[position ][ 33].setPosition(1.0f, 1.0f, 1.0f);
+	_data[position ][ 34].setPosition(-1.0f, 1.0f, 1.0f);
+	_data[position ][ 35].setPosition(1.0f, -1.0f, 1.0f);
+	if (_gameElements[position].idObject == 0){
+		for (int i = 0; i < 36; i++){
+			_data[position ][ i].setColor(50, 20, 255, 255);
+		}
+	}
+	else if (_gameElements[position].idObject == 1){
+		for (int i = 0; i < 36; i++){
+			_data[position ][ i].setColor(255, 20, 50, 255);
+		}
+	}
+	else if (_gameElements[position].idObject == 2){
+		for (int i = 0; i < 36; i++){
+			_data[position ][ i].setColor(123, 123, 123, 255);
+		}
 	}
 }
 
-Vertex* Geometry::ReturnData(){
-	
-	return _data;
+Vertex* Geometry::ReturnData(int position){
+	return _data[position];
 }
 
 glm::vec3 Geometry::returnScale(int i){
-	return gameElements[i].scale;
+	return _gameElements[i].scale;
 }
 
 glm::vec3 Geometry::returnTranslate(int i){
-	return gameElements[i].translate;
+	return _gameElements[i].translate;
 }
 
 void Geometry::Translate(int object, float x, float y, float z){
@@ -121,36 +144,62 @@ void Geometry::Translate(int object, float x, float y, float z){
 }
 
 int Geometry::returnPrimitives(){
-	return numberOfPrimitives;
+	return _numberOfPrimitives;
 }
 
 float Geometry::returnAngle(int i){
-	return gameElements[i].angle;
+	return _gameElements[i].angle;
 }
 
 glm::vec3 Geometry::returnRotate(int i){
-	return gameElements[i].rotate;
+	return _gameElements[i].rotate;
 }
 
 void Geometry::Move(int i, int j){
 	if (j == 0){
 		
-			gameElements[i].translate+=glm::vec3(-0.01,0,0);
+			_gameElements[i].translate+=glm::vec3(-0.01,0,0);
 		
 	}
 	else if (j == 1){
 		
-			gameElements[i].translate += glm::vec3(0.01, 0, 0);
+			_gameElements[i].translate += glm::vec3(0.01, 0, 0);
 		
 	}
 	else if (j == 2){
 		
-			gameElements[i].translate += glm::vec3(0, 0.01, 0);
+			_gameElements[i].translate += glm::vec3(0, 0.01, 0);
 		
 	}
 	else if (j == 3){
 		
-			gameElements[i].translate += glm::vec3(0, -0.01, 0);
+			_gameElements[i].translate += glm::vec3(0, -0.01, 0);
 		
+	}
+}
+
+void Geometry::CreatePyramid(int position){
+	_data[position][0].setPosition(0.0f, 1.0f, 0.0f);
+	_data[position][1].setPosition(1.0f, -1.0f, -1.0f);
+	_data[position][2].setPosition(-1.0f, -1.0f, -1.0f);
+	_data[position][3].setPosition(0.0f, 1.0f, 0.0f);
+	_data[position][4].setPosition(-1.0f, -1.0f, -1.0f);
+	_data[position][5].setPosition(0.0f, -1.0f, 1.0f);
+	_data[position][6].setPosition(0.0f, 1.0f, 0.0f);
+	_data[position][7].setPosition(0.0f, -1.0f, 1.0f);
+	_data[position][8].setPosition(1.0f, -1.0f, -1.0f);
+	_data[position][9].setPosition(0.0f, -1.0f, 1.0f);
+	_data[position][10].setPosition(1.0f, -1.0f, -1.0f);
+	_data[position][11].setPosition(-1.0f, -1.0f, -1.0f);
+	for (int i = 0; i < 12; i++){
+		_data[position][i].setColor(230, 120, 200, 230);
+	}
+}
+
+void Geometry::randomMovement(){
+	for (int i = 0; i < returnPrimitives(); i++){
+		if (_gameElements[i].idObject == 1){
+			_gameElements[i].translate += glm::vec3(rand() / (RAND_MAX + 1)*(0.1 - 0.01) - 0.01, rand() / (RAND_MAX + 1)*(0.1 - 0.01) - 0.01, rand() / (RAND_MAX + 1)*(0.1 - 0.01) - 0.01);
+		}
 	}
 }

@@ -39,6 +39,7 @@ void Game::run() {
 * Initializes all the game engine components
 */
 void Game::initSystems() {
+	
 		//Create an Opengl window using SDL
 	_window.create(_windowTitle, _screenWidth, _screenHeight, 0);		
 		//Compile and Link shader
@@ -70,6 +71,7 @@ void Game::loadShaders() {
 void Game::createPrimitivesToRender() {
 
 	myGeometry.LoadScene();
+	srand(unsigned(time(NULL)));
 	
 }
 
@@ -179,7 +181,7 @@ void Game::drawGame() {
 		GLuint modelMatrixUniform = _colorProgram.getUniformLocation("modelMatrix");
 		glUniformMatrix4fv(modelMatrixUniform, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 		//Send data to GPU
-		_openGLBuffers.sendDataToGPU(myGeometry.ReturnData(), MAX_VERTICES);
+		_openGLBuffers.sendDataToGPU(myGeometry.ReturnData(i), MAX_VERTICES);
 	}
 		//Unbind the program
 	_colorProgram.unuse();
@@ -191,8 +193,15 @@ void Game::drawGame() {
 /*
 * Execute the actions that must update the game objects
 */
-void Game::updateGameObjects() {
 
+void Game::updateGameObjects() {
+	double diff;
+	start = clock();
+	diff = (start - timer) / (double)CLOCKS_PER_SEC;
+	if (diff > 1){
+		myGeometry.randomMovement();
+		timer =start;
+	}
 	/*
 	glm::mat4 trans;
 	trans = glm::rotate(trans, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));

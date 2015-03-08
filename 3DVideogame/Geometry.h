@@ -12,15 +12,15 @@ using namespace std;
 
 class Geometry
 {
-	vector <GameElement> gameElements;
-	Vertex *_data;
-	int numberOfPrimitives;
+	vector <GameElement> _gameElements;
+	Vertex **_data;
+	int _numberOfPrimitives;
 public:
 	Geometry();
 	~Geometry();
 	void LoadScene();
 	void CreateCube(int position);
-	Vertex* ReturnData();
+	Vertex* ReturnData(int position);
 	glm::vec3 returnScale(int i);
 	void Translate(int object, float x, float y, float z);
 	glm::vec3 returnTranslate(int i);
@@ -28,5 +28,7 @@ public:
 	glm::vec3 returnRotate(int i);
 	int returnPrimitives();
 	void Move(int i, int j);
+	void CreatePyramid(int position);
+	void randomMovement();
 };
 
